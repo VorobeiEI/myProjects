@@ -68,10 +68,10 @@ public class ServTest extends Thread {
             @Override
             public void run() {
                 buffer = ByteBuffer.allocate(128);
-                //while (true) {
+                while (true) {
                     input(buffer);
                     txtreceive.setText(messagereceive);
-                //}
+                }
             }
         });
         thread2.start();
@@ -92,7 +92,7 @@ public class ServTest extends Thread {
 
     public String input(ByteBuffer buffer) {
         //Получение сообщения
-       // while (true) {
+
             int bytes;
             try {
                 while ((bytes = socket.read(buffer)) > 0) {
@@ -105,7 +105,7 @@ public class ServTest extends Thread {
             } catch (IOException e) {
                 System.out.println("Клиент отключился!!!");
             } return messagereceive;
-       // }
+
     }
 }
 

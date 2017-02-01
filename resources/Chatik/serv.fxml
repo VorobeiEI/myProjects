@@ -12,6 +12,6 @@
       <TextField fx:id="port" layoutX="422.0" layoutY="25.0" />
       <TextArea fx:id="typehere" layoutX="14.0" layoutY="255.0" prefHeight="102.0" prefWidth="584.0" />
       <Button fx:id="btnstart" layoutX="18.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Старт" />
-      <TextArea fx:id="txtreceive" layoutX="14.0" layoutY="108.0" prefHeight="109.0" prefWidth="584.0" />
+      <TextArea fx:id="txtreceive" editable="false" layoutX="14.0" layoutY="108.0" prefHeight="109.0" prefWidth="584.0" />
    </children>
 </AnchorPane>

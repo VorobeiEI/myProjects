@@ -25,7 +25,7 @@ public class ClientTest extends Thread {
     private   String messagesent;
     private   String messagesreceive;
     @FXML
-    public Label lblreceive ;
+    public TextArea txtreceive ;
     @FXML
     public TextArea msgout;
     @FXML
@@ -65,13 +65,14 @@ public class ClientTest extends Thread {
                buffer = ByteBuffer.allocate(128);
                 while (true){
                     input(buffer);
+                    txtreceive.setText(messagesreceive);
                 }
             }
         });
         thread1.start();
     }
 
-    public void input (ByteBuffer buffer) {
+    public String input (ByteBuffer buffer) {
         try {
              int bytes;
                while ((bytes = channel.read(buffer)) > 0) {
@@ -86,7 +87,7 @@ public class ClientTest extends Thread {
           System.out.println("Сервак отключился!!!");
 
         }
-        //return messagesreceive;
+        return messagesreceive;
     }
 
     public void send() {
