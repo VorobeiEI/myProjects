@@ -1,6 +1,5 @@
 package hw3.Chart.chatikisgrofoi;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,8 +31,6 @@ public class ClientTest extends Thread {
     @FXML
     public Button btnconn;
 
-
-
     @FXML
     public void initialize() {
         btnconn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
@@ -43,53 +40,53 @@ public class ClientTest extends Thread {
                     }
                 });
 
-
         msgout.addEventHandler(KeyEvent.KEY_PRESSED, (keyEvent) -> keyPressed(keyEvent));
-
     }
 
     public void keyPressed(KeyEvent keyEvent) {
            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                send();
-               msgout.setText("");
+               msgout.setText(null);
         }
     }
 
     public void startClient() {
         try {
             channel = SocketChannel.open(new InetSocketAddress("192.168.0.102", 39000));
-        buffer = ByteBuffer.allocate(128);
-        if (channel.isConnected()) {
-            System.out.println("Покдлючение к серверу прошло успешно!!!");
-
-        }} catch (IOException e) {
-            System.out.println("Сервер недоступен!!!");
-            System.exit(0);
-
+            if (channel.isConnected()) {
+                System.out.println("Покдлючение к серверу прошло успешно!!!");
+            }
+        } catch (IOException e) {
+            System.out.println("Сервак недоступен!!!");
         }
-        ClientTest cln = new ClientTest();
-        cln.start();
-
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+               buffer = ByteBuffer.allocate(128);
+                while (true){
+                    input(buffer);
+                }
+            }
+        });
+        thread1.start();
     }
 
-    @Override
-    public void run() {
+    public void input (ByteBuffer buffer) {
         try {
-           // while (true) {
-                int bytes;
+             int bytes;
                while ((bytes = channel.read(buffer)) > 0) {
                     buffer.flip();
                     messagesreceive = new String(buffer.array(), 0, bytes);
+                    //lblreceive.setText(messagesreceive);
                     System.out.println("Входящее сообщение от (сервер) : \n" + messagesreceive);
                     buffer.clear();
                     break;}
-              // }
 
         } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("Сервак отключился!!!");
-            stop();
+          System.out.println("Сервак отключился!!!");
+
         }
+        //return messagesreceive;
     }
 
     public void send() {
